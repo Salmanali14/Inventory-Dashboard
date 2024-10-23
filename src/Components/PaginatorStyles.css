@@ -1,0 +1,112 @@
+/* PaginatorStyles.css */
+
+
+/* Style the pagination container */
+.p-paginator {
+
+    border-radius: 4px;
+    padding: 12px;
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+.p-paginator-pages{
+    display: flex;
+}
+
+/* Style the page numbers */
+.p-paginator .p-paginator-pages .p-paginator-page {
+
+    color: #333;
+    border: none;
+    margin: 0 2px;
+    border-radius: 10px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Highlight the active page */
+.p-paginator .p-paginator-pages .p-highlight {
+    background-color: #E7EAFF;
+    color: #000;
+}
+
+/* Style the next and previous buttons */
+.p-paginator .p-paginator-next,
+.p-paginator .p-paginator-prev {
+ 
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 0 4px;
+}
+
+/* Hover effects */
+
+.p-paginator .p-dropdown .p-dropdown-label {
+    margin-left: 30px !important;
+}
+.p-dropdown-items{
+    background-color: #e0e0e0 !important ;
+    display: flex !important;
+flex-direction: column !important;
+justify-content: center !important;
+align-items: center !important;
+
+}
+.p-datatable .p-datatable-tbody > tr > td {
+    padding-top: 30px; /* Adjust padding as needed */
+  }
+  .p-column-header-content{
+    display: flex;
+    justify-content: center;
+    align-items:center ;
+  }
+  .data-table-container {
+    position: relative;
+    min-height: 500px; /* Adjust based on your table size */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .paginator-footer {
+    position: sticky;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px 15px;
+
+    z-index: 1;
+  }
+  
+  .paginator-total-items {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .paginator-component {
+    margin-left: auto;
+  }
+  .paginator-container {
+  position: sticky;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  background-color: white; /* Adjust as necessary */
+
+  z-index: 1000; /* Ensure it's on top of other elements */
+}
+
+.total-items {
+ position: absolute;
+    top: 15px; 
+  font-weight: 500;
+  margin-left: 20px;
+}

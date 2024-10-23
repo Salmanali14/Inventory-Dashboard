@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+::-webkit-scrollbar {
+    display: none;
+}
+.canvasjs-chart-credit{
+    display: none !important;
+}
+*{
+    font-family: "Poppins", sans-serif;
+}
+.css-q8hpuo-MuiFormControl-root{
+    width: 200px !important;
+   
+}
+.custom-select {
+    background-color: #F2F2F2;
+    border-radius: 8px;
+    height: 40px;
+    border: 1px solid transparent !important;
+  }
+  
+  .custom-select:hover {
+    border-color: transparent !important;
+  }
+  
+  .custom-select .MuiOutlinedInput-notchedOutline {
+    border-color: transparent !important;
+  }
+  
+  .custom-select.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: transparent !important;
+  }
+  .css-tzsjye{
+    width: 200px !important;
+  }
+  *{-webkit-tap-highlight-color: transparent;}
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active{
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
+  }
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  * {
+    outline: none !important;
+  }
+  * {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Global reset for outline on all focusable elements */
+  
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
