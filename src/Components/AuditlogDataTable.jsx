@@ -4,10 +4,11 @@ import { Column } from 'primereact/column';
 import './PaginatorStyles.css';
 import { IoMdMore } from 'react-icons/io';
 import img from "../Images/Rectangle 35.png"
-import { Menu, MenuItem } from '@mui/material';
+import { Box, Menu, MenuItem, Modal } from '@mui/material';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import ConfirmationModal from '../Modal/ConfirmationModal';
+import { IoCloseCircleSharp } from 'react-icons/io5';
 // Dummy image for storage and machine columns
 
 export default function AuditlogDataTable(filteredAllAuditLog,setGetAllAuditlog) {
@@ -16,6 +17,8 @@ export default function AuditlogDataTable(filteredAllAuditLog,setGetAllAuditlog)
   const token = localStorage.getItem("token");
   const [openModal, setOpenModal] = useState(false); 
   const [btnLoader, setBtnLoader] = useState(false);
+  const [imageModalOpen, setImageModalOpen] = useState(false); 
+  const [clickedImage, setClickedImage] = useState(null);
 const [singleAuditLogData, setSingleAuditLogData] = useState(null); 
 const confirmDelete = (data) => {
   setOpenModal(true);
@@ -33,7 +36,6 @@ const confirmDelete = (data) => {
       if (response?.data?.status === true) {
         toast.success(response?.data?.message);
         setOpenModal(false);
-        
         filteredAllAuditLog?.setGetAllAuditlog((prevAudit) => {
           const udpatedLog = prevAudit.filter((cust) => cust.id !== singleAuditLogData);
           filteredAllAuditLog?.setGetAllAuditlog(udpatedLog); 
@@ -62,7 +64,7 @@ const confirmDelete = (data) => {
   // Action buttons for each row
   const actionTemplate = (rowData) => {
     return (
-      <div className='ml-12'>
+      <div className='ml-6'>
         <IoMdMore onClick={(event) => handleMenuClick(event, rowData)} className='text-[25px] cursor-pointer' />
         </div>
    
@@ -82,17 +84,24 @@ const confirmDelete = (data) => {
     } else if (rowData.status === 'none') {
       buttonText = 'None';
       buttonColor = 'bg-black';
+    }else if (rowData.status === 'storage') {
+      buttonText = 'Storage Image';
+      buttonColor = 'bg-black';
+    }else if (rowData.status === 'machine') {
+      buttonText = 'Machine Image';
+      buttonColor = 'bg-black';
     }
   
     return (
       <button
-        className={`w-[60px] text-white ${buttonColor}`}
+        className={`w-[120px]  text-white ${buttonColor}`}
+        style={{padding:'1px 5px',borderRadius:'4px'}}
       >
         {buttonText}
       </button>
     );
   };
-  
+  console.log(filteredAllAuditLog)
 
   // Serial number template
   const serialNumberTemplate = (rowData, { rowIndex }) => {
@@ -109,8 +118,26 @@ const confirmDelete = (data) => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
   
-    return `${day}/${month}/${year}`; 
+    return `${month}/${day}/${year}`; 
   };
+  const imageTemplate = (rowData, field) => {
+    return rowData[field] ? (
+        <div className='flex justify-center items-center'>
+            <img
+                src={rowData[field]}
+                alt="item"
+                className="w-12 h-12 object-cover cursor-pointer"
+                onClick={() => {
+                    setClickedImage(rowData[field]);
+                    setImageModalOpen(true);
+                }}
+            />
+        </div>
+    ) : (
+        <span className="">N/A</span>
+    );
+};
+
 
 const updatedTemplate = (rowData) => {
   
@@ -153,7 +180,7 @@ const role = localStorage.getItem("role");
         header="Name" 
         body={userNameTemplate}
         style={{ 
-          width: '15%', 
+          width: '13%', 
           textAlign: 'center' 
         }} 
       />
@@ -171,7 +198,7 @@ const role = localStorage.getItem("role");
         field="prevQty" 
         header="Previous Qty" 
         style={{ 
-          width: '10%', 
+          width: '12%', 
           textAlign: 'center' // Center align header and cell text
         }} 
       />
@@ -179,16 +206,31 @@ const role = localStorage.getItem("role");
         field="newQty" 
         header="Changed Qty" 
         style={{ 
-          width: '10%', 
+          width: '12%', 
           textAlign: 'center' // Center align header and cell text
         }} 
       />
-   
+      <Column
+      header="Storage Img"
+      body={(rowData) => imageTemplate(rowData, 'storageImg')}
+       style={{
+          width: '12%',
+          textAlign: 'center',
+      }}
+  />
+  <Column
+  header="Machine Img"
+  body={(rowData) => imageTemplate(rowData, 'machineImg')}
+  style={{
+      width: '12%',
+      textAlign: 'center',
+  }}
+/>
       <Column 
         header="Status" 
     body={statusTemplate}
         style={{ 
-          width: '10%', 
+          width: '13%', 
           textAlign: 'center' // Center align header and cell text
         }} 
       />
@@ -196,7 +238,7 @@ const role = localStorage.getItem("role");
       header="Date" 
       body={updatedTemplate}
       style={{ 
-        width: '10%', 
+        width: '12%', 
         textAlign: 'center' // Center align header and cell text
       }} 
     />
@@ -205,7 +247,7 @@ const role = localStorage.getItem("role");
         header="Actions" 
         body={actionTemplate} 
         style={{ 
-          width: '10%', 
+          width: '8%', 
         
 
         }} 
@@ -230,6 +272,14 @@ const role = localStorage.getItem("role");
       title="Are you sure you want to delete this Audit log?"
       btnLoader={btnLoader}
     />
+    <Modal  open={imageModalOpen} onClose={() => setImageModalOpen(false)}>
+    <Box           onClick={() => setImageModalOpen(false)}  sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+    <IoCloseCircleSharp className='absolute top-2 right-2 text-[35px]'/>
+        {clickedImage && (
+            <img src={clickedImage} alt="Clicked Item" style={{ maxHeight: '90%', maxWidth: '90%' }} />
+        )}
+    </Box>
+</Modal>
     </>
   );
 }

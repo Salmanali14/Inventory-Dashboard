@@ -15,6 +15,8 @@ import axios from 'axios'
 import { ScaleLoader } from 'react-spinners'
 import Header from '../../Components/Header'
 import AddMachineModal from '../../Modal/AddMachineModal'
+import { Box, Modal } from '@mui/material'
+import { IoCloseCircleSharp } from 'react-icons/io5'
 
 export default function Dashboard() {
     let [notifModal,setNotifModal]=useState(false)
@@ -30,6 +32,8 @@ export default function Dashboard() {
     const [editInventry, setEditInventry] = useState(false);
     const apiBaseUrl = import.meta.env.VITE_APP_API_URL;
     const token = localStorage.getItem("token");
+    const [imageModalOpen, setImageModalOpen] = useState(false); 
+    const [clickedImage, setClickedImage] = useState(null);
     const handleGetTopInventory = async () => {
         setScreenLoader(true);
         try {
@@ -93,7 +97,10 @@ let nevigate = useNavigate();
   //   setInventory(sortedInventory);
   // }, []);
   // console.log(inventoryData)
-
+  const handleImageClick = (imageUrl) => {
+    setClickedImage(imageUrl);
+    setImageModalOpen(true);
+  };
   return (
 <>
 <div className='w-[100%] flex bg-white h-[100vh] border  justify-center  items-center'>
@@ -133,6 +140,7 @@ let nevigate = useNavigate();
     imageUrl={item?.storageImg}
     boxName={item?.boxName}
     quantityLeft={item?.quantity}
+    onImageClick={() => handleImageClick(item?.storageImg)}
   />
 ))}
        </>
@@ -148,6 +156,18 @@ let nevigate = useNavigate();
 <AddMachineModal editInventry={editInventry} addBoxModal={machineModal} handleAddBoxModal={handleMachineModal} updateData={updateData} setUpdateData={setUpdateData} editMode={editMode} />
 
 <NotificationModal handleNotificationModal={handleNotificationModal} notifModal={notifModal} handleNotificationModalClose={handleNotificationModalClose} updateData={updateData} />
+<Modal open={imageModalOpen} onClose={() => setImageModalOpen(false)}>
+<Box
+onClick={() => setImageModalOpen(false)}
+  sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', position: 'relative' }}
+>
+  <IoCloseCircleSharp
+    className="absolute top-4 right-4 text-[35px] cursor-pointer"
+    onClick={() => setImageModalOpen(false)}
+  />
+  {clickedImage && <img src={clickedImage} alt="Clicked Item" style={{ maxHeight: '90%', maxWidth: '90%' }} />}
+</Box>
+</Modal>
 </>
   )
 }

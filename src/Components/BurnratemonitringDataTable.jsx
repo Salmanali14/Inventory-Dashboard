@@ -4,11 +4,12 @@ import { Column } from 'primereact/column';
 import './PaginatorStyles.css';
 import { IoMdMore } from 'react-icons/io';
 import img from "../Images/Rectangle 35.png"
-import { Menu, MenuItem } from '@mui/material';
+import { Box, Menu, MenuItem, Modal } from '@mui/material';
 import { FaLongArrowAltDown, FaLongArrowAltUp } from 'react-icons/fa';
 import ConfirmationModal from '../Modal/ConfirmationModal';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { IoCloseCircleSharp } from 'react-icons/io5';
 // Dummy image for storage and machine columns
 
 export default function BurnratemonitringDataTable(filteredBurnRate,setGetAllBurnRate) {
@@ -19,6 +20,8 @@ export default function BurnratemonitringDataTable(filteredBurnRate,setGetAllBur
  const token = localStorage.getItem("token");
  const [openModal, setOpenModal] = useState(false); 
  const [btnLoader, setBtnLoader] = useState(false);
+ const [imageModalOpen, setImageModalOpen] = useState(false); 
+ const [clickedImage, setClickedImage] = useState(null);
 const [singleBurnRate, setSingleBurnRate] = useState(null); 
 const confirmDelete = (data) => {
  setOpenModal(true);
@@ -65,17 +68,24 @@ const confirmDelete = (data) => {
 
   // Image column template
  // Image column template
-const imageTemplate = (rowData, field) => {
+ const imageTemplate = (rowData, field) => {
   return rowData[field] ? (
-    <div className='flex justify-center items-center'>
-      <img src={rowData[field]} alt="item" className="w-12 h-12 object-cover" />
-    </div>
+      <div className='flex justify-center items-center'>
+          <img
+              src={rowData[field]}
+              alt="item"
+              className="w-12 h-12 object-cover cursor-pointer"
+              onClick={() => {
+                  setClickedImage(rowData[field]);
+                  setImageModalOpen(true);
+              }}
+          />
+      </div>
   ) : (
-    <div className='flex justify-center items-center'>
-      <span>{rowData.storageImg || "N/A"}</span> {/* Show item name or "N/A" if boxName is empty */}
-    </div>
+      <span className="">N/A</span>
   );
 };
+
 
   const boxNameTemplate = (rowData) => {
     const maxLength = 18;
@@ -97,7 +107,7 @@ const imageTemplate = (rowData, field) => {
   // Serial number template
  
   const screenWidth =window.innerWidth
-
+console.log(filteredBurnRates)
   return (
     <>
     <div className="card relative mt-10 overflow-y-scroll h-[60vh]">
@@ -206,6 +216,14 @@ const imageTemplate = (rowData, field) => {
       title="Are you sure you want to delete this burn rate?"
       btnLoader={btnLoader}
     />
+     <Modal  open={imageModalOpen} onClose={() => setImageModalOpen(false)}>
+                <Box           onClick={() => setImageModalOpen(false)}  sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <IoCloseCircleSharp className='absolute top-2 right-2 text-[35px]'/>
+                    {clickedImage && (
+                        <img src={clickedImage} alt="Clicked Item" style={{ maxHeight: '90%', maxWidth: '90%' }} />
+                    )}
+                </Box>
+            </Modal>
     </>
   );
 }

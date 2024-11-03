@@ -4,12 +4,12 @@ import { Column } from 'primereact/column';
 import './PaginatorStyles.css';
 import { IoMdMore } from 'react-icons/io';
 import img from "../Images/Rectangle 35.png";
-import { Menu, MenuItem } from '@mui/material';
+import { Box, Menu, MenuItem, Modal } from '@mui/material';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import ConfirmationModal from '../Modal/ConfirmationModal';
 import AddBoxModal from '../Modal/AddBoxModal';
-import { IoQrCodeSharp } from 'react-icons/io5';
+import { IoCloseCircleSharp, IoQrCodeSharp } from 'react-icons/io5';
 import html2canvas from 'html2canvas';
 import QRCodeWithFrame from './QrCode';
 import AddMachineModal from '../Modal/AddMachineModal';
@@ -23,6 +23,8 @@ export default function DataTableManageInventory({ sortOption,filteredAllInvento
     const [btnLoader, setBtnLoader] = useState(false);
     const [inventryId, setInventryId] = useState(null);
     let [addBoxModal, setAddBoxModal] = useState(false);
+    const [imageModalOpen, setImageModalOpen] = useState(false); 
+    const [clickedImage, setClickedImage] = useState(null);
     let [addMachineModal, setMachineModal] = useState(false);
     const role = localStorage.getItem("role");
     const qrRef = useRef(null);
@@ -96,10 +98,18 @@ export default function DataTableManageInventory({ sortOption,filteredAllInvento
     });
 
     // Image column template
-    const imageTemplate = (rowData, field) => {
+  const imageTemplate = (rowData, field) => {
         return rowData[field] ? (
             <div className='flex justify-center items-center'>
-                <img src={rowData[field]} alt="item" className="w-12 h-12 object-cover" />
+                <img
+                    src={rowData[field]}
+                    alt="item"
+                    className="w-12 h-12 object-cover cursor-pointer"
+                    onClick={() => {
+                        setClickedImage(rowData[field]);
+                        setImageModalOpen(true);
+                    }}
+                />
             </div>
         ) : (
             <span className="">N/A</span>
@@ -136,7 +146,7 @@ export default function DataTableManageInventory({ sortOption,filteredAllInvento
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
       
-        return `${day}/${month}/${year}`; 
+          return `${month}/${day}/${year}`; 
       };
       
     const updatedTemplate = (rowData) => {
@@ -282,7 +292,14 @@ const machineTemplate = (rowData) => {
     />
            <AddBoxModal editMode={editMode}  updateData={updateData} setUpdateData={setUpdateData} addBoxModal={addBoxModal} handleAddBoxModal={handleAddBoxModal} singleInventryData={singleInventryData} />
            <AddMachineModal editMode={editMode}  updateData={updateData} setUpdateData={setUpdateData} addBoxModal={addMachineModal} handleAddBoxModal={handleAddMachine} singleInventryData={singleInventryData} />
-       
+        <Modal  open={imageModalOpen} onClose={() => setImageModalOpen(false)}>
+                <Box           onClick={() => setImageModalOpen(false)}  sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <IoCloseCircleSharp className='absolute top-2 right-2 text-[35px]'/>
+                    {clickedImage && (
+                        <img src={clickedImage} alt="Clicked Item" style={{ maxHeight: '90%', maxWidth: '90%' }} />
+                    )}
+                </Box>
+            </Modal>
         </>
     );
 }

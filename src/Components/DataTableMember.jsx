@@ -83,11 +83,12 @@ export default function DataTableMember({ getAllEmploye, setGetAllEmploye, editM
     );
   };
 
-  const formatDate = (unixTimestamp) => {
+ const formatDate = (unixTimestamp) => {
     const dateObj = new Date(unixTimestamp * 1000);
     const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    return dateObj.toLocaleString('en-GB', options).replace(',', ' -');
-  };
+    return dateObj.toLocaleDateString('en-US', options);
+};
+
 
   const dateTemplate = (rowData) => <span>{formatDate(rowData.createDate)}</span>;
 

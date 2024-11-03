@@ -11,6 +11,7 @@ import Forgot from './Authentication/Forgot';
 import NewPassword from './Authentication/NewPassword';
 import QrScannerWebPage from './QrSannerWebPage/QrScannerWebPage';
 import { Toaster } from 'react-hot-toast';
+import Shipment from './Pages/Shipment/Shipment';
 
 function App() {
   const RequireAuth = ({ children, restrictedTo }) => {
@@ -65,6 +66,7 @@ function App() {
         {/* Common accessible pages */}
         <Route path="/manageinventry" element={<RequireAuth><ManageInventry /></RequireAuth>} />
         <Route path="/auditlog" element={<RequireAuth><AuditLog /></RequireAuth>} />
+        <Route path="/shipment" element={<RequireAuth><Shipment /></RequireAuth>} />
         <Route path="/settings" element={<RequireAuth><Settings /></RequireAuth>} />
         <Route path="/qrscanner" element={<RequireAuth><QrScannerWebPage /></RequireAuth>} />
       </Routes>

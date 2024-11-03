@@ -13,7 +13,7 @@ import buring from "../Images/Vector (78).png";
 import { useNavigate } from 'react-router-dom';
 import { RiQrCodeFill, RiSettings5Fill } from 'react-icons/ri';
 import ProfileSettingModal from '../Modal/ProfileSettingModal';
-import { FaUserFriends } from 'react-icons/fa';
+import { FaShippingFast, FaUserFriends } from 'react-icons/fa';
 
 export default function MobileSidebar({ drawerOpen, toggleDrawer }) {
   const role = localStorage.getItem("role");
@@ -35,7 +35,9 @@ export default function MobileSidebar({ drawerOpen, toggleDrawer }) {
   // Modal handlers
   let handleProfileSettingModal = () => setProfileSetting(true);
   let handleProfileSettingModalClose = () => setProfileSetting(false);
-
+  let hanldeNevShipment=()=>{
+    navigate("/shipment")
+  }
   
 
   return (
@@ -123,6 +125,16 @@ export default function MobileSidebar({ drawerOpen, toggleDrawer }) {
             </h1>
           </div>
           }
+          <div
+          onClick={hanldeNevShipment}
+          className='flex justify-start cursor-pointer items-center mt-5 rounded-[24px] pl-5 w-[80%] h-[45px]'
+          style={{ background: (pathName === "/shipment") ? "#3045A3" : "#E9E9E9", color: (pathName === "/shipment") ? "#fff" : "#000" }}
+        >
+        <FaShippingFast className='text-[20px]' style={{color:pathName === "/shipment" ? "#fff" :"3045A3"}} />
+          <h1 className='font-[500] text-[15px] ml-2' style={{ color: pathName === "/shipment" ? "#fff" : "#3045A3" }}>
+            Shipment
+          </h1>
+        </div>
           {role ==="employee" &&
           <div
           onClick={handleScanQrCode}

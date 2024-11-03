@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { MdOutlineRemoveRedEye } from 'react-icons/md'
 import { ClipLoader } from 'react-spinners'
 import toast, { Toaster } from 'react-hot-toast'
+import axios from 'axios'
 
 export default function NewPassword() {
     const [showPassword, setShowPassword] = useState(true);
